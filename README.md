@@ -8,12 +8,12 @@ As a new data engineer research about people whom the company employed during th
 - And analyze the data to answer questions about the data.
 
 ### Data csv:
-- [departments.csv]()
-- [dept_emp.csv]()
-- [dept_manager.csv]()
-- [employees.csv]()
-- [salaries.csv]()
-- [titles.csv]()
+- [departments.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/departments.csv)
+- [dept_emp.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/departments.csv)
+- [dept_manager.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/departments.csv)
+- [employees.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/employees.csv)
+- [salaries.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/salaries.csv)
+- [titles.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/titles.csv)
 
 ### Data Modeling
 Inspect the CSV files, and then sketch an Entity Relationship Diagram of the tables.
