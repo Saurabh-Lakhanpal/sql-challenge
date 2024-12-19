@@ -1,344 +1,153 @@
-A comprehensive list of data types available in PostgreSQL, along with their use cases and SQL examples:
+**Numeric Types**
 
-### Numeric Types
-- **smallint**: 2-byte integer.
-  - **Use Case**: Suitable for small-range integer values.
-  - **Example**:
+- **smallint**  
+  - Range: -32768 to +32767  
+  - Use: Small range integers  
+  - Example: `CREATE TABLE example (id smallint); INSERT INTO example VALUES (32767);`
+
+- **integer**  
+  - Range: -2147483648 to +2147483647  
+  - Use: General integer use  
+  - Example: `CREATE TABLE users (user_id integer); INSERT INTO users VALUES (2147483647);`
+
+- **bigint**  
+  - Range: -9223372036854775808 to 9223372036854775807  
+  - Use: Large integer values  
+  - Example: `CREATE TABLE big_data (big_val bigint); INSERT INTO big_data VALUES (9223372036854775807);`
+
+- **decimal** (or **numeric**)  
+  - Range: Up to 131072 digits before the decimal point; up to 16383 digits after  
+  - Use: Exact numeric values with decimal places  
+  - Example: `CREATE TABLE prices (price decimal(10,2)); INSERT INTO prices VALUES (12345.67);`
+
+- **real**  
+  - Range: Approximately -3.4E+38 to +3.4E+38  
+  - Use: Single-precision floating-point numbers  
+  - Example: `CREATE TABLE measurements (temp real); INSERT INTO measurements VALUES (98.6);`
+
+- **double precision**  
+  - Range: Approximately -1.8E+308 to +1.8E+308  
+  - Use: Double-precision floating-point numbers  
+  - Example: `CREATE TABLE scientific_data (data_point double precision); INSERT INTO scientific_data VALUES (1.23456789E+20);`
+
+**Character Types**
+
+- **char(n)** (or **character(n)**)  
+  - Range: Fixed-length string (n characters)  
+  - Use: Fixed-length strings, padded with spaces  
+  - Example: `CREATE TABLE codes (status char(3)); INSERT INTO codes VALUES ('OK ');`
+
+- **varchar(n)** (or **character varying(n)**)  
+  - Range: Variable-length string up to n characters  
+  - Use: Variable-length strings  
+  - Example: `CREATE TABLE names (full_name varchar(100)); INSERT INTO names VALUES ('John Doe');`
+
+- **text**  
+  - Range: Unlimited length  
+  - Use: When no length limit is needed  
+  - Example: `CREATE TABLE comments (content text); INSERT INTO comments VALUES ('A very long comment can go here');`
+
+**Binary Data Types**
+
+- **bytea**  
+  - Range: Binary strings  
+  - Use: Storing binary data like images or encrypted data  
+  - Example: `CREATE TABLE images (image_data bytea); INSERT INTO images VALUES (decode('1234', 'hex'));`
+
+**Date/Time Types**
+
+- **date**  
+  - Range: 4713 BC to 5874897 AD  
+  - Use: Date without time  
+  - Example: `CREATE TABLE events (event_date date); INSERT INTO events VALUES ('2023-12-31');`
+
+- **time**  
+  - Range: 00:00:00 to 24:00:00  
+  - Use: Time without date  
+  - Example: `CREATE TABLE schedules (start_time time); INSERT INTO schedules VALUES ('14:30:00');`
+
+- **timestamp**  
+  - Range: 4713 BC to 294276 AD  
+  - Use: Date and time  
+  - Example: `CREATE TABLE logs (log_time timestamp); INSERT INTO logs VALUES ('2023-12-31 23:59:59');`
+
+- **timestamptz** (or **timestamp with time zone**)  
+  - Range: Same as timestamp  
+  - Use: Date and time with time zone information  
+  - Example: `CREATE TABLE global_events (event_time timestamptz); INSERT INTO global_events VALUES ('2023-12-31 23:59:59+00');`
+
+- **interval**  
+  - Range: -178000000 years to 178000000 years  
+  - Use: Time intervals  
+  - Example: `CREATE TABLE workout (session_length interval); INSERT INTO workout VALUES ('1 hour 30 minutes');`
+
+**Boolean Type**
+
+- **boolean**  
+  - Range: TRUE, FALSE, NULL  
+  - Use: Logical states  
+  - Example: `CREATE TABLE flags (is_active boolean); INSERT INTO flags VALUES (true);`
+
+**Enumerated (Enum) Types**
+
+- **enum**  
+  - Range: Custom list of values  
+  - Use: When you need a column to hold only certain predefined values  
+  - Example:
     ```sql
-    CREATE TABLE example (
-        id smallint
-    );
+    CREATE TYPE mood AS ENUM ('happy', 'sad', 'angry');
+    CREATE TABLE people (current_mood mood);
+    INSERT INTO people VALUES ('happy');
     ```
 
-- **integer**: 4-byte integer.
-  - **Use Case**: Standard integer type for most use cases.
-  - **Example**:
+**Geometric Types**
+
+- **point**, **line**, **lseg**, **box**, **path**, **polygon**, **circle**  
+  - Use: Geometric data management  
+  - Example: 
     ```sql
-    CREATE TABLE example (
-        id integer
-    );
+    CREATE TABLE locations (position point);
+    INSERT INTO locations VALUES (point '(1,2)');
     ```
 
-- **bigint**: 8-byte integer.
-  - **Use Case**: Suitable for large-range integer values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        id bigint
-    );
-    ```
+**Network Address Types**
 
-- **decimal**: User-specified precision, exact numeric.
-  - **Use Case**: Suitable for financial calculations requiring exact precision.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        amount decimal(10, 2)
-    );
-    ```
+- **inet**  
+  - Use: IP addresses and subnets  
+  - Example: `CREATE TABLE network (ip inet); INSERT INTO network VALUES ('192.168.1.1/24');`
 
-- **numeric**: User-specified precision, exact numeric.
-  - **Use Case**: Similar to `decimal`, used for exact numeric values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        amount numeric(10, 2)
-    );
-    ```
+- **cidr**  
+  - Use: Network or subnet, with more strict definition  
+  - Example: `CREATE TABLE subnets (subnet cidr); INSERT INTO subnets VALUES ('192.168.1.0/24');`
 
-- **real**: 4-byte floating point.
-  - **Use Case**: Suitable for approximate numeric values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        value real
-    );
-    ```
+- **macaddr**  
+  - Use: MAC addresses  
+  - Example: `CREATE TABLE devices (mac macaddr); INSERT INTO devices VALUES ('08:00:2b:01:02:03');`
 
-- **double precision**: 8-byte floating point.
-  - **Use Case**: Suitable for high-precision approximate numeric values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        value double precision
-    );
-    ```
+**JSON Types**
 
-- **serial**: Auto-incrementing 4-byte integer.
-  - **Use Case**: Suitable for primary keys.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        id serial PRIMARY KEY
-    );
-    ```
+- **json**  
+  - Use: JSON data with basic validation  
+  - Example: `CREATE TABLE docs (content json); INSERT INTO docs VALUES ('{"name": "John", "age": 30}');`
 
-- **bigserial**: Auto-incrementing 8-byte integer.
-  - **Use Case**: Suitable for large-range primary keys.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        id bigserial PRIMARY KEY
-    );
-    ```
+- **jsonb**  
+  - Use: JSON data with advanced querying capabilities  
+  - Example: `CREATE TABLE records (data jsonb); INSERT INTO records VALUES ('{"name": "Jane", "age": 25}');`
 
-### Monetary Types
-- **money**: Currency amount.
-  - **Use Case**: Suitable for storing monetary values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        price money
-    );
-    ```
+**UUID Type**
 
-### Character Types
-- **character varying(n)** or **varchar(n)**: Variable-length with limit.
-  - **Use Case**: Suitable for strings with a known maximum length.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        name varchar(50)
-    );
-    ```
+- **uuid**  
+  - Use: Universally Unique Identifiers  
+  - Example: `CREATE TABLE sessions (session_id uuid); INSERT INTO sessions VALUES ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');`
 
-- **character(n)** or **char(n)**: Fixed-length, blank-padded.
-  - **Use Case**: Suitable for fixed-length strings.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        code char(10)
-    );
-    ```
+**Other Types**
 
-- **text**: Variable-length with no limit.
-  - **Use Case**: Suitable for long text strings.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        description text
-    );
-    ```
+- **xml**  
+  - Use: XML data  
+  - Example: `CREATE TABLE xml_data (content xml); INSERT INTO xml_data VALUES ('<note><to>Tove</to><from>Jani</from></note>');`
 
-### Binary Data Types
-- **bytea**: Binary data ("byte array").
-  - **Use Case**: Suitable for storing binary data.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        data bytea
-    );
-    ```
+- **money**  
+  - Use: Monetary amounts  
+  - Example: `CREATE TABLE transactions (amount money); INSERT INTO transactions VALUES ('123.45');`
 
-### Date/Time Types
-- **timestamp (without time zone)**: Both date and time (no time zone).
-  - **Use Case**: Suitable for date and time values without time zone information.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        created_at timestamp
-    );
-    ```
-
-- **timestamp (with time zone)**: Both date and time (with time zone).
-  - **Use Case**: Suitable for date and time values with time zone information.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        created_at timestamptz
-    );
-    ```
-
-- **date**: Calendar date (year, month, day).
-  - **Use Case**: Suitable for storing dates.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        birthdate date
-    );
-    ```
-
-- **time (without time zone)**: Time of day (no time zone).
-  - **Use Case**: Suitable for storing time values without time zone information.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        start_time time
-    );
-    ```
-
-- **time (with time zone)**: Time of day (with time zone).
-  - **Use Case**: Suitable for storing time values with time zone information.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        start_time timetz
-    );
-    ```
-
-- **interval**: Time span.
-  - **Use Case**: Suitable for storing durations.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        duration interval
-    );
-    ```
-
-### Boolean Type
-- **boolean**: Logical Boolean (true/false).
-  - **Use Case**: Suitable for storing true/false values.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        is_active boolean
-    );
-    ```
-
-### Enumerated Types
-- **enum**: User-defined enumerated types.
-  - **Use Case**: Suitable for storing a predefined set of values.
-  - **Example**:
-    ```sql
-    CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral');
-    CREATE TABLE example (
-        current_mood mood
-    );
-    ```
-
-### Geometric Types
-- **point**: A geometric point (x, y).
-  - **Use Case**: Suitable for storing geometric points.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        location point
-    );
-    ```
-
-- **line**: Infinite line.
-  - **Use Case**: Suitable for storing geometric lines.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        path line
-    );
-    ```
-
-- **lseg**: Line segment.
-  - **Use Case**: Suitable for storing line segments.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        segment lseg
-    );
-    ```
-
-- **box**: Rectangular box.
-  - **Use Case**: Suitable for storing rectangular boxes.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        bounding_box box
-    );
-    ```
-
-- **path**: Geometric path.
-  - **Use Case**: Suitable for storing geometric paths.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        route path
-    );
-    ```
-
-- **polygon**: Closed geometric path (polygon).
-  - **Use Case**: Suitable for storing polygons.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        area polygon
-    );
-    ```
-
-- **circle**: Circle.
-  - **Use Case**: Suitable for storing circles.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        circle_area circle
-    );
-    ```
-
-### Network Address Types
-- **cidr**: IPv4 or IPv6 network.
-  - **Use Case**: Suitable for storing network addresses.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        network cidr
-    );
-    ```
-
-- **inet**: IPv4 or IPv6 host address.
-  - **Use Case**: Suitable for storing host addresses.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        ip_address inet
-    );
-    ```
-
-- **macaddr**: MAC address.
-  - **Use Case**: Suitable for storing MAC addresses.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        mac_address macaddr
-    );
-    ```
-
-- **macaddr8**: MAC address (EUI-64 format).
-  - **Use Case**: Suitable for storing MAC addresses in EUI-64 format.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        mac_address macaddr8
-    );
-    ```
-
-### Bit String Types
-- **bit(n)**: Fixed-length bit string.
-  - **Use Case**: Suitable for storing fixed-length bit strings.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        bits bit(8)
-    );
-    ```
-
-- **bit varying(n)** or **varbit(n)**: Variable-length bit string.
-  - **Use Case**: Suitable for storing variable-length bit strings.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        bits varbit(8)
-    );
-    ```
-
-### Text Search Types
-- **tsvector**: Text search vector.
-  - **Use Case**: Suitable for full-text search indexing.
-  - **Example**:
-    ```sql
-    CREATE TABLE example (
-        document tsvector
-    );
-    ```
-
-- **tsquery**: Text search query.
-  - **Use Case**: Suitable for full-text search queries.
-  - **Example**:
-    ```sql
-    SELECT * FROM example WHERE document @@ to_tsquery('search_term');
-    ```
+Note: `uuid`, `inet`, `cidr`, `macaddr`, and `xml` are not part of the SQL standard but are PostgreSQL-specific extensions. 
