@@ -342,8 +342,3 @@ A comprehensive list of data types available in PostgreSQL, along with their use
     ```sql
     SELECT * FROM example WHERE document @@ to_tsquery('search_term');
     ```
-
-### UUID Type
-- **uuid**: Universally unique identifier.
-  - **Use Case**: Suitable for storing unique identifiers.
-  -
