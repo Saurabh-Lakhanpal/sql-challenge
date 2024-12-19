@@ -12,7 +12,10 @@ CREATE TABLE titles (
     title VARCHAR(20) NOT NULL
 );
 
--- Now create employees table, referencing titles
+-- Create employees table, referencing titles
+-- As we see in the csv that the birth date and the hire date as in mm-dd-yyyy format, we can also set this table for date columns as text and
+-- eventually alter the column's data type to date with that format. However, I choose this way where I am creating the schema as the table should be and then will
+-- load the csv into a temp table and then drop the tmp table.
 CREATE TABLE employees (
     emp_no INTEGER PRIMARY KEY,
     emp_title_id CHAR(5) NOT NULL,
