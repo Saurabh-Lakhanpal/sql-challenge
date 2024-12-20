@@ -1,0 +1,42 @@
+[link to the diagram](https://dbdiagram.io/d/6765a9c0fc29fb2b3b0080b8)
+
+Table titles {
+    title_id char(5) [pk]
+    title varchar(20) [not null]
+}
+
+Table employees {
+    emp_no integer [pk]
+    emp_title_id char(5) [not null, ref: > titles.title_id]
+    birth_date date
+    first_name varchar(20) [not null]
+    last_name varchar(20)
+    sex char(1) [not null]
+    hire_date date [not null]
+}
+
+Table departments {
+    dept_no char(4) [pk]
+    dept_name varchar(20) [not null]
+}
+
+Table dept_emp {
+   dept_no char(4) [not null, ref: > departments.dept_no]
+   emp_no integer [not null, ref: > employees.emp_no]
+    indexes {
+        (emp_no, dept_no) [pk]
+    }
+}
+
+Table dept_manager {
+    dept_no char(4) [not null, ref: > departments.dept_no]
+    emp_no integer [not null, ref: > employees.emp_no]
+    indexes {
+        (dept_no, emp_no) [pk]
+    }
+}
+
+Table salaries {
+    emp_no integer [pk, ref: > employees.emp_no]
+    salary integer [default: 0, note: 'CHECK (salary >= 0)']
+}
