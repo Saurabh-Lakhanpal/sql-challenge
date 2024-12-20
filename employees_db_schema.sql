@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS titles;
 
 -- Create titles first since it's not dependent on any other table
 CREATE TABLE titles (
-    title_id CHAR(5) PRIMARY KEY,
+    title_id CHAR(5) PRIMARY KEY, -- inherently not null
     title VARCHAR(20) NOT NULL
 );
 
@@ -17,11 +17,11 @@ CREATE TABLE titles (
 -- eventually alter the column's data type to date with that format. However, I choose this way where I am creating the schema as the table should be and then will
 -- load the csv into a temp table and then drop the tmp table.
 CREATE TABLE employees (
-    emp_no INTEGER PRIMARY KEY,
+    emp_no INTEGER PRIMARY KEY, -- inherently not null
     emp_title_id CHAR(5) NOT NULL,
-    birth_date DATE, 
-    first_name VARCHAR(20) NOT NULL,
-    last_name VARCHAR(20),
+    birth_date DATE, -- can be null and updated later
+    first_name VARCHAR(20) NOT NULL, -- Must have a name to setup a new employee
+    last_name VARCHAR(20), -- -- can be null and updated later, some employees might not use last name
     sex CHAR(1) NOT NULL,
     hire_date DATE NOT NULL,
     FOREIGN KEY (emp_title_id) REFERENCES titles(title_id)
@@ -29,7 +29,7 @@ CREATE TABLE employees (
 
 -- Create departments table
 CREATE TABLE departments (
-    dept_no CHAR(4) PRIMARY KEY,
+    dept_no CHAR(4) PRIMARY KEY, -- inherently not null
     dept_name VARCHAR(20) NOT NULL
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE dept_manager (
 
 -- Create salaries table
 CREATE TABLE salaries (
-    emp_no INTEGER NOT NULL PRIMARY KEY,
-    salary INTEGER DEFAULT 0 CHECK (salary >= 0),
+    emp_no INTEGER NOT NULL PRIMARY KEY, -- inherently not null
+    salary INTEGER DEFAULT 0 CHECK (salary >= 0), -- cannot have negative salary
     FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
 );
