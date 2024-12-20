@@ -1,17 +1,17 @@
 # sql-challenge
-
-## Solution
-
-### ERD Diagram
-<iframe src="https://app.quickdatabasediagrams.com/#/" width="800" height="600"></iframe>
-
-
 As a new data engineer research about people whom the company employed during the 1980s and 1990s. 
 - Design the tables schemas to hold the data from the CSV files.
 - Import the CSV files into a SQL database.
 - Perform data modeling.
 - Perform data engineering.
 - And analyze the data to answer questions about the data.
+
+## Solution
+- [ERD](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/employees_db_erd.png)
+- [Schema.sql](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/employees_db_schema.sql)
+- [Data Import.sql](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/employee_db_data_import.sql)
+- [Data Analysis.sql](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/employees_db_data_analysis.sql)
+
 
 ### Data csv:
 - [departments.csv](https://github.com/Saurabh-Lakhanpal/sql-challenge/blob/main/data/departments.csv)
