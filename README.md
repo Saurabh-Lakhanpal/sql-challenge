@@ -1,5 +1,11 @@
 # sql-challenge
 
+## Solution
+
+### ERD Diagram
+<iframe src="https://app.quickdatabasediagrams.com/#/" width="800" height="600"></iframe>
+
+
 As a new data engineer research about people whom the company employed during the 1980s and 1990s. 
 - Design the tables schemas to hold the data from the CSV files.
 - Import the CSV files into a SQL database.
