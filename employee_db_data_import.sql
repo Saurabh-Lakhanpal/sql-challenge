@@ -1,7 +1,7 @@
 -- Import the data from csv in the order that tables were created.
 -- However the employees table has to be written over due to the date time format in the csv
 -- Load csv in order: titles (Using postgres UI)
--- Cretae a temporary to import dates as strings 
+-- Create a temporary to import dates as strings 
 CREATE TABLE employees_temp (
     emp_no INTEGER PRIMARY KEY,
     emp_title_id CHAR(5) NOT NULL,
@@ -35,8 +35,8 @@ DROP TABLE employees_temp;
 -- Load csv of other tables in this order using the UI: departments, dept_emp, dept_manager and then salaries.
 
 -- The other option was to have bith_date and hire_date as type text in the schema itself and then after uplaoding the csv data change the data type of the table.
--- Below is the SQL query for that:
--- ALTER TABLE employees
--- ALTER COLUMN birth_date SET DATA TYPE DATE USING TO_DATE(birth_date, 'MM-DD-YYYY'),
--- ALTER COLUMN birth_date SET DATA TYPE DATE USING TO_DATE(hire_date, 'MM-DD-YYYY');
+-- Below is the SQL query that can be used for such case:
+ALTER TABLE employees
+ALTER COLUMN birth_date SET DATA TYPE DATE USING TO_DATE(birth_date, 'MM-DD-YYYY'),
+ALTER COLUMN birth_date SET DATA TYPE DATE USING TO_DATE(hire_date, 'MM-DD-YYYY');
 
